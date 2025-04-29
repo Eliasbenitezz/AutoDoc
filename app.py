@@ -2,7 +2,7 @@ import openpyxl
 
 input_filename = 'Hoja de entrada.xlsx' #Acá tenes que especificar el nombre del archivo o copiar la ruta entera
 
-# --- Cargar el libro de trabajo de entrada ---
+# Cargamos el libro de entrada 
 try:
     workbook_input = openpyxl.load_workbook(input_filename) 
     sheet_input = workbook_input.active 
@@ -31,15 +31,16 @@ for row_index, row in enumerate(sheet_input.iter_rows(min_row=2), start=2):
         sheet_output = workbook_output.active
         sheet_output.title = "Datos Alumno" # Acá podes cambiar el nombre de la hoja si queres
 
-        # --- Escribir los datos en las celdas especificadas ---
-        # Puedes cambiar las celdas de destino aquí según necesites
-        # Ejemplo: Escribir etiquetas en la columna A y valores en la B
+        '''--- Escribir los datos en las celdas especificadas ---
+        Puedes cambiar las celdas de destino aquí según necesites
+        Ejemplo: Escribir etiquetas en la columna A y valores en la B'''
+        sheet_output['A1'] = "Nombre"
         sheet_output['B1'] = nombre
-
+        sheet_output['A2'] = 'Apellido'
         sheet_output['B2'] = apellido
-
+        sheet_output['A3'] = 'Curso'
         sheet_output['B3'] = curso
-
+        sheet_output['A4'] = 'Nota'
         sheet_output['B4'] = nota
 
         '''Creamos un nombre de salida para el archivo 
