@@ -4,11 +4,11 @@ import openpyxl
 import random
 import os
 
-input_filename = 'cargaV2.xlsx' # Archivo de datos de entrada
-
-sheet_input_name = ["PLANTA"] #Agrega las hojas que quieras procesar, entre comillas y separadas por comas
-
-plantilla_filename = 'Plantilla.xlsx'  #Archivo de plantilla que se usará para crear los archivos de salida
+input_filename = 'cargaV2.xlsx' 
+sheet_input_name = ["PLANTA"]
+plantilla_filename = 'Plantilla.xlsx'
+fila_inicio = 488
+fila_fin = 554
 
 try:
     workbook_input = openpyxl.load_workbook(input_filename, data_only=True) 
@@ -21,6 +21,7 @@ except FileNotFoundError:
 for sheet_name in sheet_input_name:
     print(f"\n{'='*50}")
     print(f"Procesando hoja: {sheet_name}")
+    print(f"Rango de filas: {fila_inicio} - {fila_fin}")
     print(f"{'='*50}")
     
     if sheet_name not in workbook_input.sheetnames:
@@ -38,7 +39,14 @@ for sheet_name in sheet_input_name:
     
     archivos_procesados = 0
     
-    for row_index, row in enumerate(sheet_input.iter_rows(min_row=2), start=2):
+    # Procesar solo el rango de filas especificado
+    for row_index in range(fila_inicio, fila_fin + 1):
+        # Verificar que la fila existe en la hoja
+        if row_index > sheet_input.max_row:
+            print(f"Advertencia: La fila {row_index} no existe en la hoja. Saltando...")
+            continue
+            
+        row = sheet_input[row_index]
         fecha = row[0].value
         modelo = row[1].value
         nrchasis = row[3].value 
